@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="us">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width">
+  <title>CHMOD Practice</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="container">
+  <h1>Linux CHMOD Practice</h1>
+  
+  <div id="userBox">
+    <input id="username" placeholder="Your username">
+    <button id="startBtn">Start</button>
+    <p>Reach level 10 to unlock the CTF!</p>
+  </div>
+
+  <div id="exerciseBox">
+    <h2 id="permDisplay">...</h2>
+  </div>
+
+  <div id="timerBar"><div id="timerFill"></div></div>
+
+  <div id="terminalBox">
+    <div id="output"></div>
+    <div id="inputLine">
+      <span id="prompt"></span>
+      <input id="cmdInput" type="text" autocomplete="off" spellcheck="false">
+    </div>
+  </div>
+
+  <div id="stats">
+    Score: <span id="score">0</span> | 
+    Level: <span id="level">1</span> | 
+    Streak: <span id="streak">0</span>
+  </div>
+
+  <div id="leaderboardBox">
+    <h3> Leaderboard</h3>
+    <ul id="leaderboard"></ul>
+  </div>
+</div>
+<script src="script.js"></script>
+</body>
+</html>
