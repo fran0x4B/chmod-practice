@@ -265,9 +265,9 @@ class ChmodTrainer {
         let displayName = entry.name;
         if (entry.badge) displayName = `🏆 ${entry.name}`;  // BADGE NEL LEADERBOARD
         return `<li>${i+1}. ${displayName.padEnd(15)} ${entry.score} pts`;
-      }).join('') || '<li>Inizia per scalare la classifica!</li>';
+      }).join('') || '<li>Start climbing the rankings!</li>';
     } catch(e) {
-      document.getElementById('leaderboard').innerHTML = '<li>Errore caricamento</li>';
+      document.getElementById('leaderboard').innerHTML = '<li>Error loading</li>';
     }
   }
 }
