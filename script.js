@@ -11,8 +11,9 @@ class ChmodTrainer {
     this.flagFound = false;
 
     this.virtualFiles = [
-      {name: 'readme.txt', perm: 'rw-r--r--', content: 'use ls, the right file needs owner permissions...'},
-      {name: 'log.txt', perm: '---------', content: 'FLAG{chm0d_m4st3r_2026} '},
+      {name: 'readme.txt', perm: 'rw-r--r--', content: 'the right file needs owner permissions...'},
+      {name: 'log.txt', perm: '---------', content: 'Wrong file, search for hidden files...'},
+      {name: '.hidden.txt', perm: '---------', content: 'FLAG{chm0d_m4st3r_2026}'},
       {name: 'secret.txt', perm: '---------', content: 'TRAP! Wrong file.'}
     ];
 
@@ -69,8 +70,8 @@ class ChmodTrainer {
      this.stopTimer(); 
     if (this.stage === 'ctf') {
       this.clearOutput();
-      this.writeLine('🎉 CTF UNLOCKED!');
-      this.writeLine('Find the flag..');
+      this.writeLine('CTF UNLOCKED!');
+      this.writeLine('Find the flag using ls and cat...');
       return;
     }
 
@@ -156,58 +157,54 @@ class ChmodTrainer {
   }
 
   handleCTF(cmd) {
-    const parts = cmd.split(/\s+/);
-    const op = parts[0].toLowerCase();
-
-    if (op === 'ls') {
-      this.virtualFiles.forEach(f => 
-        this.writeLine(`${f.name.padEnd(12)} ${f.perm}`)
-      );
-    } else if (op === 'cat' && parts[1]) {
-      const file = this.virtualFiles.find(f => f.name === parts[1]);
-      if (!file) {
-        this.writeLine('File not found');
-        return;
-      }
-      if (file.perm[0] !== 'r') {
-        this.writeLine('Permission denied!');
-        return;
-      }
-      
+  const parts = cmd.trim().split(' ');
+  const op = parts[0].toLowerCase();
   
-      if (file.name === 'log.txt' && !this.flagFound) {
-        this.flagFound = true;
-        this.score += 100;
-        this.writeLine('CONGRATS!FLAG FOUND! +100 bonus pts!');
-        this.writeLine(file.content);
-        this.updateStats();
-        this.saveScore();
-        this.writeLine('Continue to practice!');
-        this.stage = 'exercise'; 
-        setTimeout(() => this.newExercise(), 2000);
-      } else {
-        this.writeLine(file.content);
-      }
-    } else if (op === 'chmod' && parts[1] && parts[2] && parts[1].length === 3) {
-      const file = this.virtualFiles.find(f => f.name === parts[2]);
-      if (!file) {
-        this.writeLine('File not found');
-        return;
-      }
-      
-      let newPerm = '';
-      for (let digit of parts[1]) {
-        const val = parseInt(digit);
-        newPerm += (val & 4) ? 'r' : '-';
-        newPerm += (val & 2) ? 'w' : '-';
-        newPerm += (val & 1) ? 'x' : '-';
-      }
-      file.perm = newPerm;
-      this.writeLine(`chmod ${parts[1]} ${parts[2]} -> ${file.perm}`);
-    } else {
-      this.writeLine('?');
+  this.stopTimer();  // Timer fix
+
+  if (op === 'ls') {
+    const showHidden = parts.includes('-la') || parts.includes('-a');
+    
+    this.virtualFiles.forEach(f => {
+      if (!showHidden && f.name.startsWith('.')) return;
+      this.writeLine(`${f.name.padEnd(12)} ${f.perm}`);
+    });
+  } else if (op === 'cat' && parts[1]) {
+    const filename = parts[1];
+    const file = this.virtualFiles.find(f => f.name === filename);
+    if (!file) return this.writeLine('File not found');
+    if (file.perm[0] !== 'r') return this.writeLine('Permission denied!');
+    
+    if (filename === '.hidden.txt' && !this.flagFound) {
+      this.flagFound = true;
+      this.score += 100;
+      this.writeLine(`FLAG FOUND! +100 pts! Score: ${this.score}`);
+      this.writeLine(file.content);
+      this.updateStats();
+      this.saveScore();
+      this.stage = 'exercise';
+      setTimeout(() => this.newExercise(), 2000);
+      return;
     }
+    this.writeLine(file.content);
+  } else if (op === 'chmod' && parts[1] && parts[2] && parts[1].length === 3) {
+    const filename = parts[2];
+    const file = this.virtualFiles.find(f => f.name === filename);
+    if (!file) return this.writeLine('File not found');
+    
+    let newPerm = '';
+    for (let digit of parts[1]) {
+      const val = parseInt(digit);
+      newPerm += (val & 4) ? 'r' : '-';
+      newPerm += (val & 2) ? 'w' : '-';
+      newPerm += (val & 1) ? 'x' : '-';
+    }
+    file.perm = newPerm;
+    this.writeLine(`chmod ${parts[1]} ${filename} → ${file.perm}------`);
+  } else {
+    this.writeLine('?');
   }
+}
 
   writeLine(text) {
     const output = document.getElementById('output');
@@ -253,7 +250,7 @@ class ChmodTrainer {
       ));
       this.loadLeaderboard();
     } catch(e) {
-      console.error('Salvaggio fallito:', e);
+      console.error('Save failed:', e);
     }
   }
 
@@ -267,7 +264,7 @@ class ChmodTrainer {
         return `<li>${i+1}. ${displayName.padEnd(15)} ${entry.score} pts`;
       }).join('') || '<li>Start climbing the rankings!</li>';
     } catch(e) {
-      document.getElementById('leaderboard').innerHTML = '<li>Error loading</li>';
+      document.getElementById('leaderboard').innerHTML = '<li>Loading Error</li>';
     }
   }
 }
