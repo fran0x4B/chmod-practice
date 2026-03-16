@@ -17,9 +17,13 @@
 |---------|-------------|
 | **🎯 10 Levels** | Symbolic → octal chmod conversion |
 | **⏱️ Timer** | Real-time pressure |
-| **🔍 Realistic CTF** | `ls -la`, dotfiles, dynamic permissions |
+| **🔍 Realistic CTF** | linux commands, dynamic permissions |
 | **🏆 Leaderboard** | localStorage + 🏆 flag badge |
 | **💰 Bonus** | +100 pts for flag |
 | **⚡ Zero Dependencies** | Pure Vanilla JS |
 
 ## 📊 Local Leaderboard (localStorage)
+
+## 🎯 Learning Goals
+- Cybersecurity: Linux permissions for CTF/Blue Team 
+- Skills: Linux CLI, Problem Solving 
