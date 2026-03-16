@@ -47,7 +47,6 @@ This stage helps users understand:
 - numeric permission representation
 - how `chmod` modifies file access
 
----
 ### 🏴 Stage 2 — CTF Challenge
 
 After completing the 10 training levels, the final **CTF challenge** is unlocked.
@@ -112,8 +111,6 @@ This project demonstrates these concepts in a simplified environment.
 
 ---
 
----
-
 # 📜 License
 
 This project is released for **educational purposes**.
@@ -124,7 +121,5 @@ This project is released for **educational purposes**.
 
 💼 **LinkedIn:** [Francesco Bozzano](https://www.linkedin.com/in/francescobozzano/)  
 📧 **Email:** [bozzano.francesco@proton.me](mailto:bozzano.francesco@proton.me)
-
----
 
 ![Footer](https://capsule-render.vercel.app/api?type=waving&color=0f2027&height=120&section=footer)
