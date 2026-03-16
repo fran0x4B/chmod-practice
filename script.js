@@ -12,9 +12,9 @@ class ChmodTrainer {
 
     this.virtualFiles = [
       {name: 'readme.txt', perm: 'rw-r--r--', content: 'the right file needs owner permissions...'},
-      {name: 'log.txt', perm: '---------', content: 'Wrong file, search for hidden files...'},
+      {name: 'log.txt', perm: '---------', content: 'Another trap file. Search for hidden files...'},
       {name: '.hidden.txt', perm: '---------', content: 'FLAG{chm0d_m4st3r_2026}'},
-      {name: 'secret.txt', perm: '---------', content: 'TRAP! Wrong file.'}
+      {name: 'secret.txt', perm: '---------', content: "IT'S A TRAP! Wrong file."}
     ];
 
     this.init();
@@ -183,7 +183,7 @@ class ChmodTrainer {
       this.updateStats();
       this.saveScore();
       this.stage = 'exercise';
-      setTimeout(() => this.newExercise(), 2000);
+      setTimeout(() => this.newExercise(), 5000);
       return;
     }
     this.writeLine(file.content);
